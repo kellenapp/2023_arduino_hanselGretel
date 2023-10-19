@@ -14,9 +14,10 @@ Servo cake;
 int redPin = 4;
 
 //reset button on breadboard for us
-int resetButton = 2;
+//int resetButton = 2;
 
-//start button needed
+//start button on breadboard
+int startButton = 3;
 
 //servo position
 int pos = 0;
@@ -29,32 +30,96 @@ int fsrreading;
 
 void setup() {
   pinMode(redPin, OUTPUT);
-  pinMode(resetButton, INPUT_PULLUP);
+  //pinMode(resetButton, INPUT_PULLUP);
+  pinMode(startButton , INPUT_PULLUP);
   hanselGretel.attach(9);
+  hanselGretel.write(0);
+  cake.write(0);
   cake.attach(11);  // attaches the servo on pin 11 to the servo object
 }
 
 void loop() {
- 
+
+  doorClosed = false;
   fsrreading = analogRead(fsrpin);
-  byte buttonState = digitalRead(resetButton);
+  //byte buttonState = digitalRead(resetButton);
   //reset button moves everything back to original place
 
-  if(fsrreading > 0){
-    digitalWrite(redPin, HIGH); // turn the red light on
-    delay(3000); // wait 3 sec
-    digitalWrite(redPin, LOW);
+  byte startState = digitalRead(startButton);
+
+  
+  if(startState == HIGH){
+    //start the program
+
+      //hansel and gretel begin to move towards the oven
+      for (pos = 0; pos <= 90; pos += 1) { // goes from 0 degrees to 90 degrees
+
+      
+        fsrreading = analogRead(fsrpin);
+        //check if oven door is closed
+        //if(fsrreading > 40){
+          //digitalWrite(redPin, HIGH);
+          //doorClosed = true;
+          //break;
+        //}
+
+        // in steps of 1 degree
+        // cake.write(pos);
+        // delay(10);
+        hanselGretel.write(pos);              // tell servo to go to position in variable 'pos'
+        delay(50);               
+
+        //break;
+       //oven lights begin to shine
+                // waits 30ms for the servo to reach the position
+      }
+
+      //if door WAS closed
+      if(doorClosed){
+
+        digitalWrite(redPin, LOW);
+          //if loop has been broken, bring hansel and Gretel back to their original position
+          for (pos = 90; pos >= 0; pos -= 1) { // goes from 90 degrees to 0 degrees
+            //cake.write(pos);
+            hanselGretel.write(pos);              // tell servo to go to position in variable 'pos'
+            delay(20);                       // waits 30ms for the servo to reach the position
+          }
+      }
+      //door did not close...
+      else{
+        digitalWrite(redPin, HIGH);
+        //move cake out from the oven
+        for (pos = 0; pos <= 90; pos += 1) {
+          cake.write(pos);
+          delay(30); //the speed of the movement
+        }
+
+      }
+      
+    
+    
   }
+  else{
+    //do nothing if button hasn't been pressed yet
+    
+  }
+
+  
+  //reset bool
+  
+
+  //pressure sensor reading
+  
 
  // if(buttonState == LOW){
     //button is pressed and the servo motor begins to run
 
-    for (pos = 0; pos <= 90; pos += 1) { // goes from 0 degrees to 90 degrees
+    //for (pos = 0; pos <= 90; pos += 1) { // goes from 0 degrees to 90 degrees
     // in steps of 1 degree
-    cake.write(pos);
-    hanselGretel.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(30);                       // waits 30ms for the servo to reach the position
-  }
+    //cake.write(pos);
+    //hanselGretel.write(pos);              // tell servo to go to position in variable 'pos'
+    //delay(30);                       // waits 30ms for the servo to reach the position
+  //}
   
  // }
   
@@ -69,5 +134,5 @@ void loop() {
     //delay(30);                       // waits 30ms for the servo to reach the position
   //}
   //delay(5000);
-
+  
 }
