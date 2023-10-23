@@ -13,9 +13,6 @@ Servo cake;
 //oven lights
 int redPin = 4;
 
-//reset button on breadboard for us
-//int resetButton = 2;
-
 //start button on breadboard
 int startButton = 3;
 
@@ -40,6 +37,8 @@ void setup() {
 
 void loop() {
 
+  unsigned long currentMillis = millis();
+
   doorClosed = false;
   fsrreading = analogRead(fsrpin);
   //byte buttonState = digitalRead(resetButton);
@@ -59,7 +58,7 @@ void loop() {
       
         fsrreading = analogRead(fsrpin);
         //check if oven door is closed
-        if(fsrreading > 40){
+        if(fsrreading > 0){
           digitalWrite(redPin, HIGH);
           doorClosed = true;
           break;
@@ -69,7 +68,8 @@ void loop() {
         // cake.write(pos);
         // delay(10);
         hanselGretel.write(pos); 
-        delay(50);               
+        delay(50);      
+        //millis(50);         
 
         
                 
@@ -83,7 +83,9 @@ void loop() {
           for (pos = 90; pos >= 0; pos -= 1) { // goes from 90 degrees to 0 degrees
             //cake.write(pos);
             hanselGretel.write(pos);              // tell servo to go to position in variable 'pos'
-            delay(20);                       // waits 30ms for the servo to reach the position
+            //millis(20);                         //better option than a delay
+            delay(50);                       // waits 30ms for the servo to reach the position
+
           }
       }
       //door did not close...
@@ -92,6 +94,7 @@ void loop() {
         //move cake out from the oven
         for (pos = 0; pos <= 90; pos += 1) {
           cake.write(pos);
+          //millis(30);
           delay(30); //the speed of the movement
         }
 
