@@ -51,27 +51,28 @@ void loop() {
   if(startState == HIGH){
     //start the program
 
+
+      fsrreading = analogRead(fsrpin); 
       //hansel and gretel begin to move towards the oven
       for (pos = 0; pos <= 90; pos += 1) { // goes from 0 degrees to 90 degrees
 
       
         fsrreading = analogRead(fsrpin);
         //check if oven door is closed
-        //if(fsrreading > 40){
-          //digitalWrite(redPin, HIGH);
-          //doorClosed = true;
-          //break;
-        //}
+        if(fsrreading > 40){
+          digitalWrite(redPin, HIGH);
+          doorClosed = true;
+          break;
+        }
 
         // in steps of 1 degree
         // cake.write(pos);
         // delay(10);
-        hanselGretel.write(pos);              // tell servo to go to position in variable 'pos'
+        hanselGretel.write(pos); 
         delay(50);               
 
-        //break;
-       //oven lights begin to shine
-                // waits 30ms for the servo to reach the position
+        
+                
       }
 
       //if door WAS closed
@@ -95,12 +96,11 @@ void loop() {
         }
 
       }
-      
-    
     
   }
   else{
     //do nothing if button hasn't been pressed yet
+    loop();
     
   }
 
