@@ -47,7 +47,7 @@ void loop() {
 
   byte startState = digitalRead(startButton);
 
-  
+  //if the button has been pressed
   if(startState == HIGH){
     //start the program
 
