@@ -111,7 +111,7 @@ void loop() {
       }
       //door did not close...
       if(doorClosed == false){
-        //digitalWrite(redPin, HIGH);
+        digitalWrite(redPin, HIGH);
         //move cake out from the oven
         for (pos = 0; pos <= 90; pos += 1) {
           cake.write(pos);
