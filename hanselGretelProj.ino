@@ -50,6 +50,7 @@ void loop() {
   doorClosed = false;
   //fsrreading = analogRead(fsrpin);
   //Serial.println("pressure at: " + fsrreading);
+  
 
   hallReading = digitalRead(hallSensorPin);
   Serial.println(hallReading);
@@ -79,7 +80,7 @@ void loop() {
         if(hallReading == 0){
           //Serial.println("pressure at: " + fsrreading);
           Serial.println("stop hansel and gretel" + pos);
-          digitalWrite(redPin, HIGH);
+          digitalWrite(redPin, LOW);
           doorClosed = true;
           break;
         }
@@ -111,7 +112,10 @@ void loop() {
       }
       //door did not close...
       if(doorClosed == false){
+        
         digitalWrite(redPin, HIGH);
+        delay(4000);
+        digitalWrite(redPin, LOW);
         //move cake out from the oven
         for (pos = 0; pos <= 90; pos += 1) {
           cake.write(pos);
@@ -120,6 +124,7 @@ void loop() {
         }
 
       }
+      //resetting the servos back to start
       cake.write(0);
       hanselGretel.write(0);
   }
