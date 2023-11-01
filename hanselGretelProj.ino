@@ -25,6 +25,9 @@ int pos = 0;
 //hansel/gretel pos
 int hgPos = 0;
 
+//cake position
+int cakePos = 0;
+
 //boolean to check whether the oven door has been closed
 bool doorClosed = false;
 
@@ -72,7 +75,7 @@ void loop() {
        
       //hansel and gretel begin to move towards the oven
       //Serial.println("pressure at: " + fsrreading);
-      for (hgPos = 0; hgPos <= 90; hgPos += 1) { // goes from 0 degrees to 90 degrees
+      for (hgPos = 0; hgPos <= 50; hgPos += 1) { // goes from 0 degrees to 90 degrees
       
         hallReading = digitalRead(hallSensorPin);
         Serial.println(hallReading);
@@ -117,16 +120,20 @@ void loop() {
         delay(4000);
         digitalWrite(redPin, LOW);
         //move cake out from the oven
-        for (pos = 0; pos <= 90; pos += 1) {
-          cake.write(pos);
+        for (cakePos = 0; cakePos <= 50; cakePos += 1) {
+          cake.write(cakePos);
           //millis(30);
-          delay(30); //the speed of the movement
+          delay(50); //the speed of the movement
         }
 
       }
       //resetting the servos back to start
-      cake.write(0);
-      hanselGretel.write(0);
+      for (pos = hgPos; pos >= 0; pos -= 1) {
+            
+            hanselGretel.write(pos);
+            cake.write(pos);              
+            delay(50);                       
+      }
   }
   else{
     //do nothing if button hasn't been pressed yet
@@ -134,35 +141,5 @@ void loop() {
     
   }
 
-  
-  //reset bool
-  
-
-  //pressure sensor reading
-  
-
- // if(buttonState == LOW){
-    //button is pressed and the servo motor begins to run
-
-    //for (pos = 0; pos <= 90; pos += 1) { // goes from 0 degrees to 90 degrees
-    // in steps of 1 degree
-    //cake.write(pos);
-    //hanselGretel.write(pos);              // tell servo to go to position in variable 'pos'
-    //delay(30);                       // waits 30ms for the servo to reach the position
-  //}
-  
- // }
-  
-  
-  //Now pressure sensor to check if there is obstruction
-    //if yes, hanselGretel move back, cake doesn't move, and lights off
-    //else, cake begans to move and hanselGretel stays hidden, and lights in oven turn on 
-  //delay(5000);
- // for (pos = 90; pos >= 0; pos -= 1) { // goes from 90 degrees to 0 degrees
-   // cake.write(pos);
-    //hanselGretel.write(pos);              // tell servo to go to position in variable 'pos'
-    //delay(30);                       // waits 30ms for the servo to reach the position
-  //}
-  //delay(5000);
   
 }
