@@ -6,11 +6,11 @@
 
 //first servo for kids
 Servo hanselGretel;
-
+ 
 //second servo for the cake
 Servo cake;
 
-//hall sensor reading
+//hall sensor reading`
 int hallReading;
 
 //oven lights
@@ -125,15 +125,16 @@ void loop() {
           //millis(30);
           delay(50); //the speed of the movement
         }
-
-      }
-      //resetting the servos back to start
-      for (pos = hgPos; pos >= 0; pos -= 1) {
+        for (pos = hgPos; pos >= 0; pos -= 1) {
             
             hanselGretel.write(pos);
             cake.write(pos);              
             delay(50);                       
       }
+
+      }
+      //resetting the servos back to start
+      
   }
   else{
     //do nothing if button hasn't been pressed yet
