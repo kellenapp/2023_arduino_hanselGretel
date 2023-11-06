@@ -76,6 +76,7 @@ void loop() {
 
       //Music serial
       Serial.write(arbitraryCode);
+      delay(55000);
       //hansel and gretel begin to move towards the oven
       //Serial.println("pressure at: " + fsrreading);
       for (hgPos = 0; hgPos <= 50; hgPos += 1) { // goes from 0 degrees to 90 degrees
@@ -93,7 +94,7 @@ void loop() {
         
         //Serial.println("hansel/gretel pos: " + pos);
         hanselGretel.write(hgPos); 
-        delay(50);  
+        delay(260);  
         
 
         // in steps of 1 degree
@@ -105,7 +106,6 @@ void loop() {
 
       //if door WAS closed
       if(doorClosed == true){
-
         digitalWrite(redPin, LOW);
           //if loop has been broken, bring hansel and Gretel back to their original position
           for (pos = hgPos; pos >= 0; pos -= 1) { // goes from 90 degrees to 0 degrees
@@ -128,6 +128,7 @@ void loop() {
           //millis(30);
           delay(50); //the speed of the movement
         }
+        delay(3000);
         for (pos = hgPos; pos >= 0; pos -= 1) {
             
             hanselGretel.write(pos);
